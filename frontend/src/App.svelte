@@ -32,6 +32,9 @@
 		inputStyle = "input-primary"
 		name = ""
 	}
+	function exit(): void {
+		window.runtime.Quit();
+	}
 </script>
 
 <main>
@@ -84,6 +87,7 @@
 				</label>
 			</div>
 			<div class="flex w-full mt-4 justify-center">
+				<div class="flex flex-col max-w-[400px] grow">
 				<div class="flex max-w-[400px] grow gap-4">
 					<button class="btn btn-success grow" on:click={greet}
 						>Greet</button
@@ -91,6 +95,12 @@
 					<button class="btn btn-warning grow" on:click={reset}
 						>Reset</button
 					>
+				</div>
+				<div class="flex max-w-[400px] grow mt-2">
+					<button class="btn btn-error grow" on:click={exit}
+						>Exit</button
+					>
+				</div>
 				</div>
 			</div>
 		</div>
