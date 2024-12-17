@@ -37,6 +37,9 @@
 <main>
 	<div class="flex flex-col justify-center w-screen h-screen">
 		<div class="justify-center">
+			<div style="--wails-draggable:drag" class="flex justify-center items-center bg-primary rounded-md max-w h-12 mb-8"
+				>Drag me</div
+			>
 			<div class="text-center">
 					<div class="avatar mb-8 cursor-pointer" on:click={() => document.getElementById("fileInput").click()}>
 						<div
