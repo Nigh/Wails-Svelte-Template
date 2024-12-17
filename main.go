@@ -6,6 +6,7 @@ import (
 	"github.com/wailsapp/wails/v2"
 	"github.com/wailsapp/wails/v2/pkg/options"
 	"github.com/wailsapp/wails/v2/pkg/options/assetserver"
+	"github.com/wailsapp/wails/v2/pkg/options/windows"
 )
 
 //go:embed all:frontend/dist
@@ -23,8 +24,26 @@ func main() {
 		AssetServer: &assetserver.Options{
 			Assets: assets,
 		},
-		BackgroundColour: &options.RGBA{R: 0, G: 0, B: 0, A: 0},
-		OnStartup:        app.startup,
+		Frameless:        true,
+		BackgroundColour: &options.RGBA{R: 0, G: 0, B: 0, A: 1},
+		Windows: &windows.Options{
+			WebviewIsTransparent:              true, // 网页透明
+			WindowIsTranslucent:               true, // 窗口透明
+			DisableWindowIcon:                 false,
+			IsZoomControlEnabled:              false,
+			DisableFramelessWindowDecorations: true,
+			WebviewUserDataPath:               "",
+			Theme:                             windows.Dark,
+			CustomTheme: &windows.ThemeSettings{
+				DarkModeTitleBar:   windows.RGB(20, 20, 20),
+				DarkModeTitleText:  windows.RGB(200, 200, 200),
+				DarkModeBorder:     windows.RGB(20, 0, 20),
+				LightModeTitleBar:  windows.RGB(200, 200, 200),
+				LightModeTitleText: windows.RGB(20, 20, 20),
+				LightModeBorder:    windows.RGB(200, 200, 200),
+			},
+		},
+		OnStartup: app.startup,
 		Bind: []interface{}{
 			app,
 		},
