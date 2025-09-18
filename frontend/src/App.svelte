@@ -1,4 +1,3 @@
-
 <script lang="ts">
 	import { Greet, LogPrintln } from "../wailsjs/go/main/App.js"
 	import avatar from "./assets/images/onimai.png"
@@ -18,11 +17,11 @@
 	}
 
 	function onFileInputChange(event: Event): void {
-		const input = event.target as HTMLInputElement;
-		const file = input.files[0];
+		const input = event.target as HTMLInputElement
+		const file = input.files[0]
 		if (file) {
-			LogPrintln(file.name);
-			avatarImg = URL.createObjectURL(file);
+			LogPrintln(file.name)
+			avatarImg = URL.createObjectURL(file)
 		}
 	}
 
@@ -38,21 +37,30 @@
 	<div class="flex flex-col justify-center w-screen h-screen">
 		<div class="justify-center">
 			<div class="text-center">
-					<div class="avatar mb-8 cursor-pointer" on:click={() => document.getElementById("fileInput").click()}>
-						<div
-							class="ring ring-offset-4 ring-offset-base-100 ring-primary w-24 rounded-full"
-						>
-							<div class="overlay">Change Avatar</div>
-							<img src={avatarImg} />
-						</div>
+				<button
+					class="avatar mb-8 cursor-pointer"
+					on:click={() => {
+						const fileInput = document.getElementById("fileInput")
+						if (fileInput !== null) {
+							fileInput.click()
+						}
+					}}
+					type="button"
+				>
+					<div
+						class="ring ring-offset-4 ring-offset-base-100 ring-primary w-24 rounded-full"
+					>
+						<div class="overlay">Change Avatar</div>
+						<img alt="" src={avatarImg} />
 					</div>
-					<input
-						type="file"
-						id="fileInput"
-						accept="image/*"
-						class="hidden"
-						on:change={onFileInputChange}
-					/>
+				</button>
+				<input
+					type="file"
+					id="fileInput"
+					accept="image/*"
+					class="hidden"
+					on:change={onFileInputChange}
+				/>
 			</div>
 			<h1 class="text-3xl font-bold">
 				Wails-Svelte-DaisyUI-Tailwindcss<br />Template
@@ -94,10 +102,7 @@
 	</div>
 </main>
 
-<style lang="postcss">
-	:global(html) {
-		background-color: theme(colors.black);
-	}
+<style>
 	.overlay {
             position: absolute;
 			user-select: none;
