@@ -10,16 +10,42 @@ This is a Wails Svelte-TS-DaisyUI-Tailwindcss template.
 
 ## Live Development
 
-To run in live development mode, run `wails dev` in the project directory. This will run a Vite development
+To run in live development mode, run `wails3 dev` in the project directory. This will run a Vite development
 server that will provide very fast hot reload of your frontend changes. If you want to develop in a browser
 and have access to your Go methods, there is also a dev server that runs on http://localhost:34115. Connect
 to this in your browser, and you can call your Go code from devtools.
 
 ## Building
 
-To build a redistributable, production mode package, use `wails build`.
+To build a redistributable, production mode package, use `wails3 build`.
 
-You can also use the included `build.sh` script:
+### Using wails3 CLI
+
+**Dev mode** — uses `WAILS_BUILD_TAGS` environment variable:
+
+```bash
+# Linux / macOS
+WAILS_BUILD_TAGS=transparent wails3 dev
+WAILS_BUILD_TAGS="transparent,gtk3" wails3 dev  # Linux GTK3 only
+
+# PowerShell
+$env:WAILS_BUILD_TAGS="transparent"; wails3 dev
+
+# CMD
+set WAILS_BUILD_TAGS=transparent && wails3 dev
+```
+
+**Build mode** — uses `-tags` flag (all platforms):
+
+```bash
+wails3 build
+wails3 build -tags transparent
+wails3 build -tags "transparent,gtk3"  # Linux GTK3 only
+```
+
+### Using build.sh (Linux/macOS)
+
+On Linux or macOS, you can also use the included `build.sh` script:
 
 ```bash
 ./build.sh dev                       # Dev mode (standard window)
@@ -40,7 +66,7 @@ Transparent mode creates a frameless window with a transparent background, usefu
 |----------|--------|-------|
 | macOS | Supported | Works out of the box |
 | Windows | Supported | Requires Windows 11 for translucent backdrop |
-| Linux (GTK3) | Supported | Requires a compositor; build with `--gtk3` flag |
+| Linux (GTK3) | Supported | Requires a compositor; build with `-tags "transparent,gtk3"` |
 | Linux (GTK4) | **Not supported** | Wails v3 alpha limitation — `setTransparent()` is a no-op stub |
 
 ### Linux Notes
@@ -48,7 +74,7 @@ Transparent mode creates a frameless window with a transparent background, usefu
 Ubuntu 24.04+ defaults to the GTK4 backend, which does **not** support transparency in wails v3 alpha. To use transparent mode on Linux, build with the GTK3 backend:
 
 ```bash
-./build.sh dev --transparent --gtk3
+WAILS_BUILD_TAGS="transparent,gtk3" wails3 dev
 ```
 
 This requires `libgtk-3-dev` and `libwebkit2gtk-4.1-dev` to be installed.
