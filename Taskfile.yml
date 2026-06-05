@@ -1,0 +1,15 @@
+version: '3'
+
+includes:
+  linux:
+    taskfile: build/linux/Taskfile.yml
+  darwin:
+    taskfile: build/darwin/Taskfile.yml
+  windows:
+    taskfile: build/windows/Taskfile.yml
+
+vars:
+  APP_NAME: wails-demo
+  BIN_DIR: build/bin
+  PACKAGE_MANAGER: npm
+  VITE_PORT: 5173

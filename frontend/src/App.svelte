@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { Greet, LogPrintln, IsFrameless } from "../wailsjs/go/main/App.js"
-	import { Quit } from "../wailsjs/runtime/runtime.js"
+	import { Greet, LogPrintln, IsFrameless } from "../bindings/wails-demo/appservice.js"
+	import { Application } from "@wailsio/runtime"
 	import avatar from "./assets/images/onimai.png"
 	const initText = "Please enter your name below 👇"
 	let resultText: string = initText
@@ -46,7 +46,7 @@
 <main>
 	{#if frameless}
 		<div class="titlebar" style="--wails-draggable:drag">
-			<button class="exit-btn" onclick={() => Quit()}>✕</button>
+			<button class="exit-btn" onclick={() => Application.Quit()}>✕</button>
 		</div>
 	{/if}
 	<div class="flex flex-col justify-center w-screen h-screen">

@@ -4,34 +4,36 @@
 #   ./build.sh dev --transparent    - Dev mode (transparent frameless)
 #   ./build.sh build                - Production build (standard window)
 #   ./build.sh build --transparent  - Production build (transparent frameless)
-#
-# webkit2_41 tag is auto-included for Ubuntu 24.04+ (webkit2gtk-4.1).
 
-BASE_TAGS="webkit2_41"
-
-if [[ "$2" == "--transparent" ]]; then
-    TAGS="$BASE_TAGS,transparent"
-    MODE="transparent frameless"
-elif [[ "$1" == "--transparent" ]]; then
-    TAGS="$BASE_TAGS,transparent"
+if [[ "$2" == "--transparent" ]] || [[ "$1" == "--transparent" ]]; then
+    TAGS="transparent"
     MODE="transparent frameless"
 else
-    TAGS="$BASE_TAGS"
+    TAGS=""
     MODE="standard"
 fi
 
 case "$1" in
     dev)
         echo "Starting dev ($MODE mode)..."
-        wails dev -tags "$TAGS"
+        if [[ -n "$TAGS" ]]; then
+            export WAILS_BUILD_TAGS="$TAGS"
+            wails3 dev
+        else
+            wails3 dev
+        fi
         ;;
     build|"")
         echo "Building ($MODE mode)..."
-        wails build -tags "$TAGS"
+        if [[ -n "$TAGS" ]]; then
+            wails3 build -tags "$TAGS"
+        else
+            wails3 build
+        fi
         ;;
     --transparent)
         echo "Building ($MODE mode)..."
-        wails build -tags "$TAGS"
+        wails3 build -tags "$TAGS"
         ;;
     *)
         echo "Usage: $0 {dev|build} [--transparent]"

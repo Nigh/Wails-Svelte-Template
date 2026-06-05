@@ -1,0 +1,36 @@
+version: '3'
+
+info:
+  companyName: "xianii"
+  productName: "Wails Demo"
+  productIdentifier: "com.xianii.wails-demo"
+  description: "Wails Svelte DaisyUI Tailwindcss Template"
+  copyright: "(c) 2026, xianii"
+  comments: "Wails Svelte DaisyUI Template"
+  version: "0.1.0"
+
+dev_mode:
+  root_path: .
+  log_level: warn
+  debounce: 1000
+  ignore:
+    dir:
+      - .git
+      - node_modules
+      - frontend
+      - bin
+    file:
+      - .DS_Store
+      - .gitignore
+      - .gitkeep
+      - "*_test.go"
+    watched_extension:
+      - "*.go"
+    git_ignore: true
+  executes:
+    - cmd: go build -buildvcs=false -gcflags=all="-l" ${WAILS_BUILD_TAGS:+-tags $WAILS_BUILD_TAGS} -o build/bin/wails-demo
+      type: blocking
+    - cmd: npm run dev --prefix frontend -- --port ${WAILS_VITE_PORT:-9245} --strictPort
+      type: background
+    - cmd: wails3 task linux:run
+      type: primary
