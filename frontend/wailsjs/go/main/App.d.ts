@@ -3,4 +3,6 @@
 
 export function Greet(arg1:string):Promise<string>;
 
+export function IsFrameless():Promise<boolean>;
+
 export function LogPrintln(arg1:string):Promise<number>;

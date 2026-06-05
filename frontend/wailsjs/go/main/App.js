@@ -6,6 +6,10 @@ export function Greet(arg1) {
   return window['go']['main']['App']['Greet'](arg1);
 }
 
+export function IsFrameless() {
+  return window['go']['main']['App']['IsFrameless']();
+}
+
 export function LogPrintln(arg1) {
   return window['go']['main']['App']['LogPrintln'](arg1);
 }
