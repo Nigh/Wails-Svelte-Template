@@ -28,9 +28,11 @@ dev_mode:
       - "*.go"
     git_ignore: true
   executes:
-    - cmd: go build -buildvcs=false -gcflags=all="-l" ${WAILS_BUILD_TAGS:+-tags $WAILS_BUILD_TAGS} -o build/bin/wails-demo
+    - cmd: wails3 task dev:build
       type: blocking
-    - cmd: npm run dev --prefix frontend -- --port ${WAILS_VITE_PORT:-9245} --strictPort
+    - cmd: wails3 generate bindings
+      type: blocking
+    - cmd: wails3 task common:dev:frontend
       type: background
-    - cmd: wails3 task linux:run
+    - cmd: wails3 task run
       type: primary

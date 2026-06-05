@@ -4,7 +4,7 @@ vars:
   APP_NAME: wails-demo
   BIN_DIR: build/bin
   PACKAGE_MANAGER: npm
-  VITE_PORT: 5173
+  VITE_PORT: 9245
 
 tasks:
   go:mod:tidy:
@@ -170,22 +170,22 @@ tasks:
   frontend:dev:npm:
     dir: frontend
     cmds:
-      - npm run dev -- --port {{.VITE_PORT}} --strictPort
+      - npm run dev -- --port {{.VITE_PORT}} --host 127.0.0.1 --strictPort
 
   frontend:dev:yarn:
     dir: frontend
     cmds:
-      - yarn dev --port {{.VITE_PORT}} --strictPort
+      - yarn dev --port {{.VITE_PORT}} --host 127.0.0.1 --strictPort
 
   frontend:dev:pnpm:
     dir: frontend
     cmds:
-      - pnpm dev --port {{.VITE_PORT}} --strictPort
+      - pnpm dev --port {{.VITE_PORT}} --host 127.0.0.1 --strictPort
 
   frontend:dev:bun:
     dir: frontend
     cmds:
-      - bun run dev --port {{.VITE_PORT}} --strictPort
+      - bun run dev --port {{.VITE_PORT}} --host 127.0.0.1 --strictPort
 
   update:build-assets:
     summary: Updates the build assets
