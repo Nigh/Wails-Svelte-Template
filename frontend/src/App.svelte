@@ -3,10 +3,10 @@
 	import { Application } from "@wailsio/runtime"
 	import avatar from "./assets/images/onimai.png"
 	const initText = "Please enter your name below 👇"
-	let resultText: string = initText
-	let name: string = ""
-	let inputStyle: string = "input-primary"
-	let avatarImg: string = avatar
+	let resultText: string = $state(initText)
+	let name: string = $state("")
+	let inputStyle: string = $state("input-primary")
+	let avatarImg: string = $state(avatar)
 	let frameless: boolean = $state(false)
 
 	IsFrameless().then((v) => {
