@@ -30,3 +30,7 @@ func (a *App) LogPrintln(log string) (len int) {
 	len, _ = fmt.Println(log)
 	return len
 }
+
+func (a *App) IsFrameless() bool {
+	return isFrameless
+}

@@ -1,11 +1,21 @@
 <script lang="ts">
-	import { Greet, LogPrintln } from "../wailsjs/go/main/App.js"
+	import { Greet, LogPrintln, IsFrameless } from "../wailsjs/go/main/App.js"
+	import { Quit } from "../wailsjs/runtime/runtime.js"
 	import avatar from "./assets/images/onimai.png"
 	const initText = "Please enter your name below 👇"
 	let resultText: string = initText
 	let name: string = ""
 	let inputStyle: string = "input-primary"
 	let avatarImg: string = avatar
+	let frameless: boolean = $state(false)
+
+	IsFrameless().then((v) => {
+		frameless = v
+		if (v) {
+			document.documentElement.style.backgroundColor = "transparent"
+		}
+	})
+
 	function greet(): void {
 		if (name.length > 0) {
 			inputStyle = "input-primary"
@@ -18,7 +28,7 @@
 
 	function onFileInputChange(event: Event): void {
 		const input = event.target as HTMLInputElement
-		const file = input.files[0]
+		const file = input.files?.[0]
 		if (file) {
 			LogPrintln(file.name)
 			avatarImg = URL.createObjectURL(file)
@@ -34,12 +44,17 @@
 </script>
 
 <main>
+	{#if frameless}
+		<div class="titlebar" style="--wails-draggable:drag">
+			<button class="exit-btn" onclick={() => Quit()}>✕</button>
+		</div>
+	{/if}
 	<div class="flex flex-col justify-center w-screen h-screen">
 		<div class="justify-center">
 			<div class="text-center">
 				<button
 					class="avatar mb-8 cursor-pointer"
-					on:click={() => {
+					onclick={() => {
 						const fileInput = document.getElementById("fileInput")
 						if (fileInput !== null) {
 							fileInput.click()
@@ -59,7 +74,7 @@
 					id="fileInput"
 					accept="image/*"
 					class="hidden"
-					on:change={onFileInputChange}
+					onchange={onFileInputChange}
 				/>
 			</div>
 			<h1 class="text-3xl font-bold">
@@ -90,10 +105,10 @@
 			</div>
 			<div class="flex w-full mt-4 justify-center">
 				<div class="flex max-w-[400px] grow gap-4">
-					<button class="btn btn-success grow" on:click={greet}
+					<button class="btn btn-success grow" onclick={greet}
 						>Greet</button
 					>
-					<button class="btn btn-warning grow" on:click={reset}
+					<button class="btn btn-warning grow" onclick={reset}
 						>Reset</button
 					>
 				</div>
@@ -103,23 +118,52 @@
 </main>
 
 <style>
+	.titlebar {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 32px;
+		display: flex;
+		justify-content: flex-end;
+		align-items: center;
+		z-index: 100;
+	}
+
+	.exit-btn {
+		width: 32px;
+		height: 32px;
+		border: none;
+		background: transparent;
+		color: white;
+		font-size: 16px;
+		cursor: pointer;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.exit-btn:hover {
+		background: rgba(255, 0, 0, 0.6);
+	}
+
 	.overlay {
-            position: absolute;
-			user-select: none;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-        .avatar:hover .overlay {
-            opacity: 1;
-        }
+		position: absolute;
+		user-select: none;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background: rgba(0, 0, 0, 0.5);
+		color: white;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: 50%;
+		opacity: 0;
+		transition: opacity 0.3s;
+	}
+	.avatar:hover .overlay {
+		opacity: 1;
+	}
 </style>
