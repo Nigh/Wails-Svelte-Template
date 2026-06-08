@@ -2,23 +2,20 @@
 
 package main
 
-import (
-	"github.com/wailsapp/wails/v2/pkg/options"
-	"github.com/wailsapp/wails/v2/pkg/options/windows"
-)
+import "github.com/wailsapp/wails/v3/pkg/application"
 
 var isFrameless = true
 
-func configureWindow(opts *options.App) {
-	opts.Frameless = true
-	opts.BackgroundColour = &options.RGBA{R: 0, G: 0, B: 0, A: 1}
-	opts.Windows = &windows.Options{
-		WebviewIsTransparent:              true,
-		WindowIsTranslucent:               true,
-		DisableWindowIcon:                 false,
-		DisableFramelessWindowDecorations: true,
-		WebviewUserDataPath:               "",
-		WebviewBrowserPath:                "",
-		Theme:                             windows.SystemDefault,
-	}
+func configureWindow(app *application.App) {
+	app.Window.NewWithOptions(application.WebviewWindowOptions{
+		Title:            "wails-template",
+		Width:            600,
+		Height:           900,
+		Frameless:        true,
+		BackgroundColour: application.NewRGB(0, 0, 0),
+		BackgroundType:   application.BackgroundTypeTransparent,
+		Windows: application.WindowsWindow{
+			DisableFramelessWindowDecorations: true,
+		},
+	})
 }

@@ -2,10 +2,15 @@
 
 package main
 
-import "github.com/wailsapp/wails/v2/pkg/options"
+import "github.com/wailsapp/wails/v3/pkg/application"
 
 var isFrameless = false
 
-func configureWindow(opts *options.App) {
-	opts.BackgroundColour = &options.RGBA{R: 27, G: 38, B: 54, A: 1}
+func configureWindow(app *application.App) {
+	app.Window.NewWithOptions(application.WebviewWindowOptions{
+		Title:            "wails-template",
+		Width:            600,
+		Height:           900,
+		BackgroundColour: application.NewRGB(27, 38, 54),
+	})
 }

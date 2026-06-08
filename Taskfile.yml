@@ -1,0 +1,34 @@
+version: '3'
+
+includes:
+  linux:
+    taskfile: build/linux/Taskfile.yml
+  darwin:
+    taskfile: build/darwin/Taskfile.yml
+  windows:
+    taskfile: build/windows/Taskfile.yml
+  common:
+    taskfile: build/Taskfile.yml
+
+vars:
+  APP_NAME: wails-demo
+  BIN_DIR: build/bin
+  PACKAGE_MANAGER: npm
+  VITE_PORT: 9245
+
+tasks:
+  dev:build:
+    summary: Builds the Go binary in dev mode for the current platform
+    vars:
+      WAILS_BUILD_TAGS:
+        sh: 'echo $WAILS_BUILD_TAGS'
+    cmds:
+      - cmd: go build -buildvcs=false -gcflags=all="-l" ${WAILS_BUILD_TAGS:+-tags $WAILS_BUILD_TAGS} -o build/bin/wails-demo
+        platforms: [linux, darwin]
+      - cmd: go build -buildvcs=false -gcflags=all="-l" {{if .WAILS_BUILD_TAGS}}-tags {{.WAILS_BUILD_TAGS}}{{end}} -o build/bin/wails-demo.exe
+        platforms: [windows]
+
+  run:
+    summary: Runs the built application
+    cmds:
+      - task: '{{OS}}:run'

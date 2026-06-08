@@ -1,13 +1,14 @@
 <script lang="ts">
-	import { Greet, LogPrintln, IsFrameless } from "../wailsjs/go/main/App.js"
-	import { Quit } from "../wailsjs/runtime/runtime.js"
+	import { Greet, LogPrintln, IsFrameless } from "../bindings/wails-demo/appservice.js"
+	import { Application } from "@wailsio/runtime"
 	import avatar from "./assets/images/onimai.png"
 	const initText = "Please enter your name below 👇"
-	let resultText: string = initText
-	let name: string = ""
-	let inputStyle: string = "input-primary"
-	let avatarImg: string = avatar
+	let resultText: string = $state(initText)
+	let name: string = $state("")
+	let inputStyle: string = $state("input-primary")
+	let avatarImg: string = $state(avatar)
 	let frameless: boolean = $state(false)
+	let hovered: boolean = $state(false)
 
 	IsFrameless().then((v) => {
 		frameless = v
@@ -44,12 +45,19 @@
 </script>
 
 <main>
+	<!-- svelte-ignore a11y_no_static_element_interactions -->
+	<div
+		class="window-container"
+		class:frameless
+		class:hovered
+		onmouseenter={() => hovered = true}
+		onmouseleave={() => hovered = false}
+		style={frameless && hovered ? "--wails-draggable:drag" : ""}
+	>
 	{#if frameless}
-		<div class="titlebar" style="--wails-draggable:drag">
-			<button class="exit-btn" onclick={() => Quit()}>✕</button>
-		</div>
+		<button class="exit-btn" class:visible={hovered} onclick={() => Application.Quit()}>✕</button>
 	{/if}
-	<div class="flex flex-col justify-center w-screen h-screen">
+	<div class="flex flex-col justify-center w-screen h-screen pointer-events-auto">
 		<div class="justify-center">
 			<div class="text-center">
 				<button
@@ -115,22 +123,23 @@
 			</div>
 		</div>
 	</div>
+	</div>
 </main>
 
 <style>
-	.titlebar {
-		position: fixed;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 32px;
-		display: flex;
-		justify-content: flex-end;
-		align-items: center;
-		z-index: 100;
+	.window-container {
+		width: 100vw;
+		height: 100vh;
+		transition: background 0.2s;
+	}
+	.window-container.hovered {
+		background: rgba(0, 0, 0, 0.35);
 	}
 
 	.exit-btn {
+		position: fixed;
+		top: 4px;
+		right: 4px;
 		width: 32px;
 		height: 32px;
 		border: none;
@@ -141,8 +150,15 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		z-index: 100;
+		opacity: 0;
+		transition: opacity 0.2s;
+		pointer-events: none;
 	}
-
+	.exit-btn.visible {
+		opacity: 1;
+		pointer-events: auto;
+	}
 	.exit-btn:hover {
 		background: rgba(255, 0, 0, 0.6);
 	}

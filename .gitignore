@@ -1,4 +1,28 @@
+# Build output
 build/bin
+wails-demo
+*.syso
+
+# Frontend
 node_modules
 frontend/dist
+frontend/wailsjs
+frontend/bindings
+
+# Build metadata
 *.md5
+
+# Taskfile / wake cache
+.task
+.wake
+
+# Kilo
+.kilo
+
+# Generated Linux desktop/appimage artifacts
+build/linux/*.desktop
+build/linux/appimage
+
+# IDE
+.vscode
+.idea
