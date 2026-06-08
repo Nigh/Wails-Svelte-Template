@@ -78,3 +78,37 @@ WAILS_BUILD_TAGS="transparent,gtk3" wails3 dev
 ```
 
 This requires `libgtk-3-dev` and `libwebkit2gtk-4.1-dev` to be installed.
+
+#### GNOME (Mutter) Does Not Support Transparent Windows
+
+GNOME's compositor **Mutter deliberately strips the alpha channel** from client application windows. This means transparent mode will **not work** on any GNOME session (Wayland or X11), regardless of GTK version or build tags.
+
+This is not a bug or misconfiguration — it is an intentional design decision by the GNOME project. The display protocols (Wayland/X11) and GTK itself both fully support transparency; the blocking layer is Mutter.
+
+Affected desktop environments: **GNOME, Ubuntu Desktop (default), GNOME Flashback, Budgie (uses Mutter).**
+
+#### Recommended: Use Hyprland
+
+[Hyprland](https://hyprland.org/) is a Wayland compositor based on wlroots with first-class transparent window support. It is lightweight, actively maintained, and works out of the box with this template.
+
+```bash
+# Install Hyprland on Ubuntu 24.04
+sudo add-apt-repository ppa:hyprland/hyprland
+sudo apt update
+sudo apt install hyprland
+```
+
+Log out, select **Hyprland** from the login screen (gear icon), then run:
+
+```bash
+WAILS_BUILD_TAGS="transparent,gtk3" wails3 dev
+```
+
+#### Other Compatible Compositors
+
+| Compositor | Protocol | Install |
+|-----------|----------|---------|
+| **Hyprland** (recommended) | Wayland | `sudo apt install hyprland` |
+| **KWin / KDE Plasma** | Wayland + X11 | `sudo apt install plasma-desktop` |
+| **Sway** | Wayland | `sudo apt install sway` |
+| **Picom** (with X11 WM) | X11 | `sudo apt install picom` |
