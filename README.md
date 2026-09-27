@@ -6,6 +6,8 @@ Wails Svelte TS DaisyUI Tailwindcss Template
 
 This is a Wails Svelte-TS-DaisyUI-Tailwindcss template.
 
+Requires Go 1.25+, Node.js 22.13+, and the Wails v3 CLI matching the Go module version. Install the current CLI with `go install github.com/wailsapp/wails/v3/cmd/wails3@v3.0.0-beta.26`.
+
 ![](./screenshot.png)
 
 ## Live Development
@@ -67,11 +69,11 @@ Transparent mode creates a frameless window with a transparent background, usefu
 | macOS | Supported | Works out of the box |
 | Windows | Supported | Requires Windows 11 for translucent backdrop |
 | Linux (GTK3) | Supported | Requires a compositor; build with `-tags "transparent,gtk3"` |
-| Linux (GTK4) | **Not supported** | Wails v3 alpha limitation — `setTransparent()` is a no-op stub |
+| Linux (GTK4) | **Not supported** | Wails v3 beta limitation — `setTransparent()` is a no-op stub |
 
 ### Linux Notes
 
-Ubuntu 24.04+ defaults to the GTK4 backend, which does **not** support transparency in wails v3 alpha. To use transparent mode on Linux, build with the GTK3 backend:
+Ubuntu 24.04+ defaults to the GTK4 backend, which does **not** support transparency in Wails v3 beta. To use transparent mode on Linux, build with the GTK3 backend:
 
 ```bash
 WAILS_BUILD_TAGS="transparent,gtk3" wails3 dev
