@@ -17,6 +17,18 @@ vars:
   VITE_PORT: 9245
 
 tasks:
+  build:
+    summary: Builds the application for the current platform
+    cmds:
+      - task: '{{OS}}:build'
+        vars:
+          ARCH: '{{.ARCH}}'
+          DEV: '{{.DEV}}'
+          OUTPUT: '{{.OUTPUT}}'
+          EXTRA_TAGS: '{{.EXTRA_TAGS}}'
+          OBFUSCATED: '{{.OBFUSCATED}}'
+          GARBLE_ARGS: '{{.GARBLE_ARGS}}'
+
   dev:build:
     summary: Builds the Go binary in dev mode for the current platform
     vars:
